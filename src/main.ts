@@ -24,23 +24,26 @@ app.all('*', async c => {
     url.hostname = hostname;
     url.pathname = '/' + pathParts.join('/');
 
+    const method = c.req.method;
+
     const proxyReq = new Request(url, {
-        method: c.req.method,
+        method,
         headers,
-        body: await c.req.arrayBuffer(),
+        body: method === 'GET' || method === 'HEAD' ? undefined : await c.req.arrayBuffer(),
         keepalive: true,
     });
 
     const res = await fetch(proxyReq);
-    const body = res.body;
-    if (!body) {
-        throw new Error(`Empty response from ${url} | Status: ${res.status}`);
-    }
 
     c.status(res.status as StatusCode);
 
     for (const [name, value] of Object.entries(res.headers)) {
         c.header(name, value.toString());
+    }
+
+    const body = res.body;
+    if (!body) {
+        return c.body(null);
     }
 
     return stream(c, async stream => {
