@@ -1,0 +1,16 @@
+{
+    "name": "sst-proxy",
+    "version": "1.0.0",
+    "private": true,
+    "license": "MIT",
+    "scripts": {
+        "dev": "sst dev",
+        "deploy:prod": "sst deploy --stage production"
+    },
+    "devDependencies": {
+        "@types/node": "22.10.7",
+        "hono": "4.6.16",
+        "prettier": "3.4.2",
+        "sst": "3.5.13"
+    }
+}

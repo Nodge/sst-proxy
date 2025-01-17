@@ -1,0 +1,8 @@
+# sst
+.sst
+
+# mise
+mise.local.toml
+
+# node
+node_modules
