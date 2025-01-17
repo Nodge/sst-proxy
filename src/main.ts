@@ -34,11 +34,13 @@ app.all('*', async c => {
     });
 
     const res = await fetch(proxyReq);
-
     c.status(res.status as StatusCode);
 
     for (const [name, value] of res.headers.entries()) {
-        c.header(name, value.toString());
+        // Fetch API decompresses gzip automatically, so the Content-Encoding header does not match the actual encoding.
+        if (name !== 'content-encoding') {
+            c.header(name, value.toString());
+        }
     }
 
     const body = res.body;
