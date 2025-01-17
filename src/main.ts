@@ -37,7 +37,7 @@ app.all('*', async c => {
 
     c.status(res.status as StatusCode);
 
-    for (const [name, value] of Object.entries(res.headers)) {
+    for (const [name, value] of res.headers.entries()) {
         c.header(name, value.toString());
     }
 
